@@ -8,6 +8,7 @@
     "dev": "node scripts/dev-with-api.js",
     "build:director-desk": "node scripts/build-director-desk.js",
     "build": "node scripts/build-director-desk.js && next build",
+    "build:ci": "next build",
     "start": "next start",
     "serve": "node scripts/serve-with-tts.js",
     "serve:tts": "node scripts/serve-with-tts.js",

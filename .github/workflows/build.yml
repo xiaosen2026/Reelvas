@@ -30,8 +30,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -48,8 +46,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build (skip vendor, uses pre-built)
+        run: npm run build:ci
 
       - name: Package ${{ matrix.name }}
         run: npm run dist
