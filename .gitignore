@@ -1,0 +1,63 @@
+# 依赖
+/node_modules
+/vendor/**/node_modules
+
+# Next.js / 构建产物
+/.next
+/out
+/dist
+*.tsbuildinfo
+next-env.d.ts
+
+# 开源导演台构建产物（npm run build:director-desk）
+/public/director-desk
+/vendor/storyai-3d-director-desk/dist
+
+# 环境与密钥（切勿提交）
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+credentials*.json
+
+# 编辑器 / 本地
+.claude/*
+!.claude/skills/
+.agents/*
+!.agents/skills/
+.memory
+.DS_Store
+Thumbs.db
+*.local
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# 调试垃圾 / 探针
+build-log*
+tsc-*.txt
+*.bak
+*.bak2
+edge-tts-probe.mp3
+proxy-tts-test.mp3
+*-probe.mp3
+initial-ui.png
+video-*.png
+workflow-startup.md
+scripts/fix-*.mjs
+scripts/remove-*.mjs
+scripts/update-agent-prompt.mjs
+scripts/probe-*.mjs
+
+# Electron 打包中间物
+/dist
+*.exe
+# 允许文档截图
+!docs/
+!docs/**
+
+# 日志
+*.log
+npm-debug.log*

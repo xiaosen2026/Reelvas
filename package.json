@@ -1,0 +1,63 @@
+{
+  "name": "reelvas",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Reelvas — 短剧 AI 无限画布（Next.js + Tailwind v4，自研画布引擎），开源前端，无后端绑定",
+  "main": "electron-main.js",
+  "scripts": {
+    "dev": "node scripts/dev-with-api.js",
+    "build:director-desk": "node scripts/build-director-desk.js",
+    "build": "node scripts/build-director-desk.js && next build",
+    "start": "next start",
+    "serve": "node scripts/serve-with-tts.js",
+    "serve:tts": "node scripts/serve-with-tts.js",
+    "mcp:canvas": "node scripts/mcp-canvas-server.js",
+    "electron": "electron .",
+    "app": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win --x64",
+    "director-desk:dev": "npm --prefix vendor/storyai-3d-director-desk run dev"
+  },
+  "dependencies": {
+    "@lobehub/icons": "^5.10.1",
+    "lucide-react": "^0.562.0",
+    "next": "^15.1.6",
+    "pannellum": "^2.5.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "ws": "^8.21.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "electron": "^40.10.6",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0"
+  },
+  "build": {
+    "appId": "com.reelvas.app",
+    "productName": "Reelvas",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron-main.js",
+      "electron-preload.js",
+      "out/**/*"
+    ],
+    "win": {
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "dir",
+          "arch": ["x64"]
+        }
+      ]
+    }
+  }
+}

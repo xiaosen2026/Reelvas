@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Reelvas">
+  <!-- App mark: 胶片卷 reel — 简约可识别 -->
+  <rect width="64" height="64" rx="14" fill="#171717"/>
+  <g transform="translate(32 32)">
+    <circle r="18.5" fill="#FAFAFA"/>
+    <g fill="#171717">
+      <circle cx="0" cy="-11.2" r="3"/>
+      <circle cx="9.7" cy="-5.6" r="3"/>
+      <circle cx="9.7" cy="5.6" r="3"/>
+      <circle cx="0" cy="11.2" r="3"/>
+      <circle cx="-9.7" cy="5.6" r="3"/>
+      <circle cx="-9.7" cy="-5.6" r="3"/>
+    </g>
+    <rect x="-4.5" y="-4.5" width="9" height="9" rx="2.2" fill="#171717"/>
+  </g>
+</svg>

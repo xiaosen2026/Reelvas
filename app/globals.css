@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* 限制扫描范围：vendor/out/dist 体积大，会拖垮 PostCSS/Tailwind（dev OOM → layout.css 404 → 样式全乱） */
+@source not "../vendor/**";
+@source not "../out/**";
+@source not "../dist/**";
+@source not "../.next/**";
+@source not "../public/vendor/**";
+
+/* 隐藏 Next.js dev 模式路由加载指示器（右下角 logo 动画）—— 打包后本不存在 */
+[data-next-mark-loading] { display: none !important; }
+
+/* pannellum 仅作用于自身容器，避免将来污染全局 box-sizing */
+.pnlm-container,
+.pnlm-container * {
+  box-sizing: content-box;
+}
+
+/* ===== Reelvas :root 变量 (light 主题) ===== */
+:root{--titlebar-height:48px;--radius:.625rem;--background:#fff;--foreground:#0a0a0a;--card:#fff;--card-foreground:#0a0a0a;--popover:#fff;--popover-foreground:#0a0a0a;--primary:#171717;--primary-foreground:#fafafa;--secondary:#f5f5f5;--secondary-foreground:#171717;--muted:#f5f5f5;--muted-foreground:#737373;--accent:#f5f5f5;--accent-foreground:#171717;--destructive:#e40014;--destructive-foreground:#fafafa;--border:#e5e5e5;--input:#e5e5e5;--ring:#a1a1a1;--chart-1:#f05100;--chart-2:#009588;--chart-3:#104e64;--chart-4:#fcbb00;--chart-5:#f99c00;--sidebar:#fafafa;--sidebar-foreground:#0a0a0a;--sidebar-primary:#171717;--sidebar-primary-foreground:#fafafa;--sidebar-accent:#f5f5f5;--sidebar-accent-foreground:#171717;--sidebar-border:#e5e5e5;--sidebar-ring:#a1a1a1;--canvas-background:#f2f2f2;--canvas-dots:#9e9e9e;--minimap-node:#00000040;--minimap-node-stroke:#00000026;--minimap-mask:#00000014;--edge-stroke:#6b728059;--edge-particle:#6b72809e;--edge-stroke-highlight:#0006;--edge-particle-highlight:#000c;--edge-stroke-dimmed:#6b72803d;--edge-particle-dimmed:#6b728061;--edge-delete-bg:#e5e5e5;--edge-delete-icon:#171717;--glass-enabled:1;--glass-blur:24px;--glass-saturate:1.7;--glass-border:transparent;--glass-highlight:#ffffffb8;--glass-tint:#ffffff14;--glass-frost:#ffffff1f;--glass-edge-falloff:56px;--glass-clear-falloff:88px;--glass-mist-clear-axis:#fff0;--glass-mist-center-axis:#ffffff0b;--glass-mist-dense-axis:#ffffff1c;--glass-corner-highlight:#ffffffb8;--glass-corner-highlight-size:104px;--glass-corner-erase:#ffffff9e;--glass-corner-erase-size:88px;--glass-edge-bright:#ffffffe0;--glass-edge-dim:#ffffff85;--glass-fill-panel:#ffffff9e;--glass-fill-control:#ffffff7a;--glass-fill-hover:#ffffffad;--glass-shadow-outer:0 8px 28px #0f172a1f,0 2px 8px #0f172a14;--glass-shadow-inner:inset 1px 1px 0 #ffffffe0,inset -1px -1px 0 #94a3b82e;--glass-shadow-focus:0 0 0 2px #71717ae6,0 8px 28px #0f172a29;--editor-panel-layer-a:#fff9;--editor-panel-layer-b:#ffffff40;--editor-panel-border:#ffffff6b;--editor-panel-shadow:0 20px 52px #0f172a29,0 6px 16px #0f172a1f;--editor-corner-highlight:#ffffffad;--editor-corner-highlight-size:88px;--editor-header-fill:#ffffff80;--editor-toolbar-fill:#ffffff6b;--editor-action-fill:#ffffff75;--btn-glass-fill-a:#ffffff85;--btn-glass-fill-b:#ffffff3d;--btn-glass-border:#ffffff3d;--btn-glass-highlight:#ffffff9e;--frost-menu-fill:#ffffff8f;--frost-menu-border:#ffffff70;--node-red:255 56 60;--node-orange:255 141 40;--node-yellow:255 204 0;--node-green:52 199 89;--node-mint:0 200 179;--node-teal:0 195 208;--node-cyan:0 192 232;--node-blue:0 136 255;--node-indigo:97 85 245;--node-purple:203 48 224;--node-pink:255 45 85;--node-brown:172 127 94}
+
+/* ===== 原版 .dark 覆盖 ===== */
+.dark{--background:#0a0a0a;--foreground:#fafafa;--card:#171717;--card-foreground:#fafafa;--popover:#171717;--popover-foreground:#fafafa;--primary:#e5e5e5;--primary-foreground:#171717;--secondary:#262626;--secondary-foreground:#fafafa;--muted:#262626;--muted-foreground:#a3a3a3;--accent:#262626;--accent-foreground:#fafafa;--destructive:#dc2626;--border:#373737;--input:#ffffff26;--ring:#737373;--chart-1:#3b82f6;--chart-2:#22c55e;--chart-3:#f59e0b;--chart-4:#a855f7;--chart-5:#f43f5e;--sidebar:#171717;--sidebar-foreground:#fafafa;--sidebar-primary:#3b82f6;--sidebar-primary-foreground:#fafafa;--sidebar-accent:#262626;--sidebar-accent-foreground:#fafafa;--sidebar-border:#ffffff1a;--sidebar-ring:#737373;--canvas-background:#050505;--canvas-dots:#4a4a4a;--minimap-node:#ffffff2e;--minimap-node-stroke:#ffffff14;--minimap-mask:#ffffff0a;--edge-stroke:#6b728059;--edge-particle:#6b72809e;--edge-stroke-highlight:#fff6;--edge-particle-highlight:#fffc;--edge-stroke-dimmed:#6b72803d;--edge-particle-dimmed:#6b728061;--edge-delete-bg:#262626;--edge-delete-icon:#fafafa;--glass-blur:24px;--glass-saturate:1.8;--glass-border:transparent;--glass-highlight:#ffffff3d;--glass-tint:#ffffff08;--glass-frost:#ffffff21;--glass-edge-falloff:62px;--glass-clear-falloff:108px;--glass-mist-clear-axis:#fff0;--glass-mist-center-axis:#ffffff06;--glass-mist-dense-axis:#ffffff0d;--glass-corner-highlight:#fff9;--glass-corner-highlight-size:112px;--glass-corner-erase:#00000080;--glass-corner-erase-size:96px;--glass-edge-bright:#ffffff61;--glass-edge-dim:#ffffff3d;--glass-fill-panel:#00000080;--glass-fill-control:#ffffff14;--glass-fill-hover:#ffffff24;--glass-shadow-outer:0 8px 32px #0000008c,0 2px 8px #00000059;--glass-shadow-inner:inset 1px 1px 0 #ffffff61,inset -1px -1px 0 #ffffff1a;--glass-shadow-focus:0 0 0 2px #71717af2,0 8px 32px #0000008c;--editor-panel-layer-a:#ffffff0f;--editor-panel-layer-b:#ffffff0f;--editor-panel-border:#ffffff38;--editor-panel-shadow:0 24px 60px #00000094,0 8px 20px #0000005c;--editor-corner-highlight:#ffffff70;--editor-corner-highlight-size:20px;--editor-header-fill:#ffffff0f;--editor-toolbar-fill:#ffffff0f;--editor-action-fill:#ffffff0f;--btn-glass-fill-a:#0000001f;--btn-glass-fill-b:#ffffff14;--btn-glass-border:#ffffff29;--btn-glass-highlight:#fff6;--frost-menu-fill:#ffffff26;--frost-menu-border:#ffffff3d;--node-red:255 66 69;--node-orange:255 146 48;--node-yellow:255 214 0;--node-green:48 209 88;--node-mint:0 218 195;--node-teal:0 210 224;--node-cyan:60 211 254;--node-blue:0 145 255;--node-indigo:109 124 255;--node-purple:219 52 242;--node-pink:255 55 95;--node-brown:183 138 102}
+
+/* ===== Tailwind v4 颜色映射: 让 bg-background/text-muted-foreground/border-border 等语义类生效 ===== */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* ===== 原版自定义 editor 类 (调整: 去掉 position 让组件 Tailwind 定位生效; 背景用可靠实色玻璃) ===== */
+.window-titlebar{
+  z-index:60;
+  height:var(--titlebar-height);
+  min-height:var(--titlebar-height);
+  -webkit-backdrop-filter:blur(24px) saturate(1.45);
+  backdrop-filter:blur(24px) saturate(1.45);
+  background:rgba(255,255,255,0.72);
+  align-items:center;
+  padding:0 4px 0 12px;
+  display:flex;
+  position:fixed;
+  top:0;left:0;right:0;
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+.editor-panel-surface{
+  isolation:isolate;
+  -webkit-backdrop-filter:blur(24px) saturate(1.45);
+  backdrop-filter:blur(24px) saturate(1.45);
+  background:rgba(255,255,255,0.80);
+  box-shadow:var(--editor-panel-shadow);
+  border:1px solid rgba(255,255,255,0.42);
+}
+.dark .window-titlebar{ background:rgba(20,20,20,0.72); border-bottom-color:rgba(255,255,255,0.06); }
+.dark .editor-panel-surface{ background:rgba(23,23,23,0.80); border-color:rgba(255,255,255,0.10); }
+
+/* ===== 节点连接点 (Handle)：平时半隐，hover 节点/连线时显现，便于抓取连线 ===== */
+/* 垂直居中由 inline style (top:50% + translateY(-50%)) 控制，此处只管显隐与配色，不覆写 transform */
+.react-flow__handle{
+  width:10px;height:10px;border-radius:9999px;
+  background:var(--muted-foreground);
+  border:2px solid var(--card);
+  opacity:0;
+  transition:opacity .15s,background .15s;
+}
+.react-flow__node:hover .react-flow__handle,
+.react-flow__handle:hover,
+.react-flow__handle.connecting,
+.react-flow__handle.connectionindicator{ opacity:1; }
+.react-flow__handle:hover{ background:var(--primary); }
+
+/* ===== 连线 (Edge)：默认深灰；悬停/热态红（实际色也由 Edges 内联 stroke 控制） ===== */
+.react-flow__edge-path{ stroke:#525252; stroke-width:2; }
+.react-flow__edge.is-hot .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path,
+.react-flow__edge.selected .react-flow__edge-path{ stroke:#e40014; stroke-width:2.5; }
+.dark .react-flow__edge.is-hot .react-flow__edge-path,
+.dark .react-flow__edge:hover .react-flow__edge-path,
+.dark .react-flow__edge.selected .react-flow__edge-path{ stroke:#f87171; }
+.react-flow__connection-path{ stroke:#525252; stroke-width:2; stroke-dasharray:5 5; }
+
+/* 连线流动动画（自研引擎，替代原库 animated 属性） */
+.flow-edge-animated{ stroke-dasharray:6 4; animation:flow-dash 0.5s linear infinite; }
+@keyframes flow-dash{ to { stroke-dashoffset:-10; } }
+
+/* 缩放滑块手柄（控制条 range），纯原生 input 定制，轨道填充由 inline style 控制 */
+.zoom-slider::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:12px; height:12px; border-radius:9999px; background:var(--primary); cursor:pointer; border:2px solid var(--card); box-shadow:0 1px 2px #0003; }
+.zoom-slider::-moz-range-thumb{ width:12px; height:12px; border-radius:9999px; background:var(--primary); cursor:pointer; border:2px solid var(--card); box-shadow:0 1px 2px #0003; }
+
+/* TTS 节点播放进度条 */
+.tts-seek::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:10px; height:10px; border-radius:9999px; background:#7c3aed; cursor:pointer; border:0; margin-top:-3px; }
+.tts-seek::-moz-range-thumb{ width:10px; height:10px; border-radius:9999px; background:#7c3aed; cursor:pointer; border:0; }
+.tts-seek::-webkit-slider-runnable-track{ height:4px; border-radius:9999px; background:#ddd6fe; }
+.dark .tts-seek::-webkit-slider-runnable-track{ background:#4c1d95; }
+.dark .tts-seek::-webkit-slider-thumb,
+.dark .tts-seek::-moz-range-thumb{ background:#a78bfa; }
+
+/* ===== 美化滚动条：结果区 / 面板通用 ===== */
+.nice-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--muted-foreground) 45%, transparent) transparent;
+}
+.nice-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.nice-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.nice-scroll::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
+  background-clip: content-box;
+}
+.nice-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
