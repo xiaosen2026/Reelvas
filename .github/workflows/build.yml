@@ -1,8 +1,9 @@
-name: Build EXE
+name: Build & Release
 
 on:
   push:
     branches: [main]
+    tags: ['v*']
   workflow_dispatch:
 
 jobs:
@@ -14,32 +15,27 @@ jobs:
           - os: windows-latest
             name: Windows
             artifact: Reelvas-Windows
-            dist_cmd: npx electron-builder --win --x64
+            dist_cmd: npx electron-builder --win --x64 --publish never
             setup_pattern: dist/*.exe
             portable_dir: dist/win-unpacked/
           - os: macos-latest
             name: macOS
             artifact: Reelvas-macOS
-            dist_cmd: npx electron-builder --mac --x64 --arm64
+            dist_cmd: npx electron-builder --mac --x64 --arm64 --publish never
             setup_pattern: dist/*.dmg
             portable_dir: dist/mac*/
           - os: ubuntu-latest
             name: Linux
             artifact: Reelvas-Linux
-            dist_cmd: npx electron-builder --linux --x64
+            dist_cmd: npx electron-builder --linux --x64 --publish never
             setup_pattern: dist/*.AppImage
             portable_dir: dist/linux-unpacked/
 
     runs-on: ${{ matrix.os }}
-    permissions:
-      contents: write
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
@@ -50,23 +46,32 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-0 libwebkit2gtk-4.1-0 libxss1
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
+      - run: npm run build:ci
+      - run: ${{ matrix.dist_cmd }}
 
-      - name: Build (skip vendor, uses pre-built)
-        run: npm run build:ci
-
-      - name: Package ${{ matrix.name }}
-        run: ${{ matrix.dist_cmd }}
-
-      - name: Upload portable
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact }}-portable
-          path: ${{ matrix.portable_dir }}
+          name: ${{ matrix.artifact }}
+          path: |
+            ${{ matrix.setup_pattern }}
+            ${{ matrix.portable_dir }}
 
-      - name: Upload installer
-        uses: actions/upload-artifact@v4
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.artifact }}-Setup
-          path: ${{ matrix.setup_pattern }}
+          path: dist
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: false
+          files: dist/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
