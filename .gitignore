@@ -10,6 +10,8 @@
 next-env.d.ts
 
 # 开源导演台构建产物（npm run build:director-desk）
+/vendor/storyai-3d-director-desk/dist
+/vendor/storyai-3d-director-desk/node_modules
 # 预编译入库，CI 无需拉取子模块
 !/public/director-desk/
 
