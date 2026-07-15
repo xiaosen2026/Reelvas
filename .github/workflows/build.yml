@@ -7,7 +7,26 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            name: Windows
+            artifact: Reelvas-Windows
+            setup_pattern: dist/*.exe
+            portable_dir: dist/win-unpacked/
+          - os: macos-latest
+            name: macOS
+            artifact: Reelvas-macOS
+            setup_pattern: dist/*.dmg
+            portable_dir: dist/mac*/
+          - os: ubuntu-latest
+            name: Linux
+            artifact: Reelvas-Linux
+            setup_pattern: dist/*.AppImage
+            portable_dir: dist/linux-unpacked/
+
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,17 +42,17 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Package EXE
+      - name: Package ${{ matrix.name }}
         run: npm run dist
 
       - name: Upload portable
         uses: actions/upload-artifact@v4
         with:
-          name: Reelvas-portable
-          path: dist/win-unpacked/
+          name: ${{ matrix.artifact }}-portable
+          path: ${{ matrix.portable_dir }}
 
       - name: Upload installer
         uses: actions/upload-artifact@v4
         with:
-          name: Reelvas-Setup
-          path: dist/*.exe
+          name: ${{ matrix.artifact }}-Setup
+          path: ${{ matrix.setup_pattern }}
