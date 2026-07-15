@@ -66,12 +66,25 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
+          name: Reelvas-Windows
           path: dist
-          merge-multiple: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: Reelvas-macOS
+          path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: Reelvas-Linux
+          path: dist
+
+      - name: Verify artifacts
+        run: ls -lR dist/
 
       - uses: softprops/action-gh-release@v2
         with:
-          draft: false
-          files: dist/**/*
+          files: |
+            dist/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
