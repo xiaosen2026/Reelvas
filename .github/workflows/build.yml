@@ -14,16 +14,19 @@ jobs:
           - os: windows-latest
             name: Windows
             artifact: Reelvas-Windows
+            dist_cmd: npx electron-builder --win --x64
             setup_pattern: dist/*.exe
             portable_dir: dist/win-unpacked/
           - os: macos-latest
             name: macOS
             artifact: Reelvas-macOS
+            dist_cmd: npx electron-builder --mac --x64 --arm64
             setup_pattern: dist/*.dmg
             portable_dir: dist/mac*/
           - os: ubuntu-latest
             name: Linux
             artifact: Reelvas-Linux
+            dist_cmd: npx electron-builder --linux --x64
             setup_pattern: dist/*.AppImage
             portable_dir: dist/linux-unpacked/
 
@@ -50,7 +53,7 @@ jobs:
         run: npm run build:ci
 
       - name: Package ${{ matrix.name }}
-        run: npm run dist
+        run: ${{ matrix.dist_cmd }}
 
       - name: Upload portable
         uses: actions/upload-artifact@v4
