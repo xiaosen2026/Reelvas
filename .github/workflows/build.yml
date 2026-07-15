@@ -14,19 +14,19 @@ jobs:
           - os: windows-latest
             name: Windows
             artifact: Reelvas-Windows
-            dist_cmd: npx electron-builder --win --x64
+            dist_cmd: npx electron-builder --win --x64 --publish never
             setup_pattern: dist/*.exe
             portable_dir: dist/win-unpacked/
           - os: macos-latest
             name: macOS
             artifact: Reelvas-macOS
-            dist_cmd: npx electron-builder --mac --x64 --arm64
+            dist_cmd: npx electron-builder --mac --x64 --arm64 --publish never
             setup_pattern: dist/*.dmg
             portable_dir: dist/mac*/
           - os: ubuntu-latest
             name: Linux
             artifact: Reelvas-Linux
-            dist_cmd: npx electron-builder --linux --x64
+            dist_cmd: npx electron-builder --linux --x64 --publish never
             setup_pattern: dist/*.AppImage
             portable_dir: dist/linux-unpacked/
 
