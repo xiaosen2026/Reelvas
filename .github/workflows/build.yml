@@ -26,8 +26,14 @@ jobs:
       - name: Package EXE
         run: npm run dist
 
-      - name: Upload artifact
+      - name: Upload portable
         uses: actions/upload-artifact@v4
         with:
           name: Reelvas-portable
           path: dist/win-unpacked/
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: Reelvas-Setup
+          path: dist/*.exe
