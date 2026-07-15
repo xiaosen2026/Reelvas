@@ -67,24 +67,27 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: Reelvas-Windows
-          path: dist
+          path: Reelvas-Windows
 
       - uses: actions/download-artifact@v4
         with:
           name: Reelvas-macOS
-          path: dist
+          path: Reelvas-macOS
 
       - uses: actions/download-artifact@v4
         with:
           name: Reelvas-Linux
-          path: dist
+          path: Reelvas-Linux
 
-      - name: Verify artifacts
-        run: ls -lR dist/
+      - name: Zip each platform
+        run: |
+          zip -r Reelvas-Windows.zip Reelvas-Windows/
+          zip -r Reelvas-macOS.zip Reelvas-macOS/
+          zip -r Reelvas-Linux.zip Reelvas-Linux/
 
       - uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/**/*
+            Reelvas-*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
